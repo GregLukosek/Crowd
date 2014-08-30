@@ -17,6 +17,7 @@ public class PhotonManager : Photon.MonoBehaviour
 	void Awake()
 	{
 		instance = this;
+		Connect();
 	}
 
 
@@ -72,6 +73,8 @@ public class PhotonManager : Photon.MonoBehaviour
 	public void OnJoinedRoom()
 	{
 		Debug.Log("Joined room");
+		PhotonNetwork.Instantiate("userprefab", Vector3.zero, Quaternion.identity, 0);
+
 	}
 
 

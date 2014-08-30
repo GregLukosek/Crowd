@@ -37,13 +37,32 @@ public class ViewAuthorize : UIView
 		if (response != "ok")
 		{
 			Debug.LogError(response);
-			ViewController.instance.ToMainRoom();
+			labelStatus.color = Color.red;
+			labelStatus.text = response;
 		}
 		else
 		{
 			//all went fine ready to parse login
 			Debug.Log("Facebook login fine");
-			ViewController.instance.ToMainRoom();
+			labelStatus.text = "Logging in";
+
+			string parseResponse = "";
+			StartCoroutine(UserManager.instance.ParseLogin(value=>parseResponse=value));
+			while (parseResponse == "")
+			{
+				yield return new WaitForEndOfFrame();
+			}
+
+
+			if (parseResponse != "ok")
+			{
+				Debug.LogError(parseResponse);
+				labelStatus.color = Color.red;
+			}
+			else
+			{
+				ViewController.instance.ToMainRoom();
+			}
 		}
 
 	}

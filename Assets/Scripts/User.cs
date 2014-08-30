@@ -38,7 +38,7 @@ public class User : MonoBehaviour
 
 	public void OnPhotonInstantiate(PhotonMessageInfo info)
 	{
-		StartCoroutine(LoadAvatar("http://graph.facebook.com/" + (string)info.sender.customProperties["fbid"] + "/picture?type=square"));
+		StartCoroutine(LoadAvatar("http://graph.facebook.com/" + (string)info.sender.customProperties["fbid"] + "/picture?type=large"));
 
 		
 	}

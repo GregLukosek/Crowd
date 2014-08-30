@@ -50,8 +50,26 @@ public class UserManager : MonoBehaviour
 				}
 			} );
 		}
-
 	}
+
+
+	public IEnumerator ParseLogin(Action<string> response)
+	{
+		Task<ParseUser> task = ParseFacebookUtils.LogInAsync(FB.UserId, FB.AccessToken, FB.AccessTokenExpiresAt);
+
+		while (!task.IsCompleted) yield return new WaitForEndOfFrame();
+
+		if (task.IsFaulted)
+		{
+			response(task.Exception.InnerException.Message);
+		}
+		else
+		{
+			response("ok");
+		}
+	}
+
+
 
 
 	private void OnHideUnity(bool isShown)

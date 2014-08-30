@@ -25,6 +25,7 @@ public class ViewController : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
+		Application.targetFrameRate = 30;
 	}
 
 

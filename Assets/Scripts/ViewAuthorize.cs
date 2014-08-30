@@ -20,11 +20,12 @@ public class ViewAuthorize : UIView
 	}
 
 
+
 	IEnumerator LoginSignup()
 	{
 		string status = "";
 		string response = "";
-		StartCoroutine(UserManager.instance.LoginSignup(value=>status=value,
+		StartCoroutine(UserManager.instance.FacebookLogin(value=>status=value,
 		                                                value=>response=value));
 		
 		while (response == "")
@@ -36,11 +37,13 @@ public class ViewAuthorize : UIView
 		if (response != "ok")
 		{
 			Debug.LogError(response);
+			ViewController.instance.ToMainRoom();
 		}
 		else
 		{
 			//all went fine ready to parse login
 			Debug.Log("Facebook login fine");
+			ViewController.instance.ToMainRoom();
 		}
 
 	}

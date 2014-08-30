@@ -16,7 +16,7 @@ public class UserManager : MonoBehaviour
 	}
 
 
-	public IEnumerator LoginSignup(Action<string> status, Action<string> response)
+	public IEnumerator FacebookLogin(Action<string> status, Action<string> response)
 	{
 		if (!FB.IsInitialized)
 		{
@@ -29,7 +29,6 @@ public class UserManager : MonoBehaviour
 
 			while (!FB.IsInitialized) yield return new WaitForEndOfFrame();
 		}
-
 
 		if(FB.IsLoggedIn)
 		{

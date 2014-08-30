@@ -4,9 +4,11 @@ using Parse;
 
 public class ViewController : MonoBehaviour 
 {
+	public static ViewController instance;
+
 	public Camera guiCamera;
 	public UIView viewAuthorize;
-
+	public UIView viewMainRoom;
 	
 	private UIView _currentView;
 	public UIView currentView
@@ -20,7 +22,19 @@ public class ViewController : MonoBehaviour
 	}
 
 
-	public void ChangeView(UIView view)
+	void Awake()
+	{
+		instance = this;
+	}
+
+
+	void Start()
+	{
+		ChangeView(viewAuthorize);
+	}
+
+
+	void ChangeView(UIView view)
 	{
 		view.Show();
 		guiCamera.transform.position = new Vector3(view.transform.position.x, view.transform.position.y);
@@ -29,12 +43,11 @@ public class ViewController : MonoBehaviour
 	}
 
 
+	public void ToMainRoom() { ChangeView(viewMainRoom);}
 
 
-	void Start()
-	{
-		ChangeView(viewAuthorize);
-	}
+
+
 
 	
 

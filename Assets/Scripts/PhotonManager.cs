@@ -2,6 +2,7 @@
 using System.Collections;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System;
+using System.Collections.Generic;
 
 
 public class PhotonManager : Photon.MonoBehaviour
@@ -17,13 +18,13 @@ public class PhotonManager : Photon.MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-		Connect();
+//		Connect();
 	}
 
 
 	public void Connect()
 	{
-		PhotonNetwork.ConnectToBestCloudServer(version);
+		PhotonNetwork.ConnectUsingSettings(version);
 		PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.OnEventCall += OnEventCall;
 		PhotonNetwork.logLevel = logLevel;
@@ -37,6 +38,12 @@ public class PhotonManager : Photon.MonoBehaviour
 	public void OnConnectedToPhoton()
 	{
 		Debug.Log("OnConnectedToPhoton");
+
+		Hashtable properties = new Hashtable();
+		properties.Add("fbid", FB.UserId);
+
+
+		PhotonNetwork.player.SetCustomProperties(properties);
 	}
 
 	//Called if server is unrechable
@@ -51,6 +58,7 @@ public class PhotonManager : Photon.MonoBehaviour
 		if (PhotonNetwork.networkingPeer.AvailableRegions != null) Debug.LogWarning("List of available regions counts " + PhotonNetwork.networkingPeer.AvailableRegions.Count + ". First: " + PhotonNetwork.networkingPeer.AvailableRegions[0] + " \t Current Region: " + PhotonNetwork.networkingPeer.CloudRegion);
 		Debug.Log("OnConnectedToMaster() was called by PUN. Now this client is connected and could join a room. Calling: PhotonNetwork.JoinRandomRoom();");
 	}
+
 
 
 	public virtual void OnJoinedLobby()
@@ -68,12 +76,25 @@ public class PhotonManager : Photon.MonoBehaviour
 	}
 
 
+//
+//	PhotonPlayer[] playersInRoom = new PhotonPlayer[1];
+
 
 
 	public void OnJoinedRoom()
 	{
 		Debug.Log("Joined room");
-		PhotonNetwork.Instantiate("userprefab", Vector3.zero, Quaternion.identity, 0);
+		GameObject userPrefab = PhotonNetwork.Instantiate("userprefab", Vector3.zero, Quaternion.identity, 0);
+
+
+//		foreach (PhotonPlayer player in PhotonNetwork.playerList)
+//		{
+//			Debug.Log("new player fb id: " + (string)player.customProperties["fbid"]);
+//			
+//		}
+//		
+//		playersInRoom = PhotonNetwork.playerList;
+
 
 	}
 
@@ -83,6 +104,14 @@ public class PhotonManager : Photon.MonoBehaviour
 		Debug.Log("Random Join failed, creating room");
 		// codeAndMsg[0] is int ErrorCode. codeAndMsg[1] is string debug msg. 
 	}
+
+
+	public void OnPhotonPlayerConnected(PhotonPlayer newPlayer) 
+	{
+
+	}
+
+
 
 
 

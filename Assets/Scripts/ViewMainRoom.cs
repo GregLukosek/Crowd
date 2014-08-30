@@ -25,6 +25,8 @@ public class ViewMainRoom : UIView
 	{
 		PhotonManager.instance.Connect();
 
+
+
 		yield return null;
 
 	}

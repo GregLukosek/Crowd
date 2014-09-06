@@ -38,7 +38,7 @@ public class UserManager : MonoBehaviour
 		{
 			status("Authorizing");
 
-			FB.Login("email", delegate(FBResult result)
+			FB.Login("public_profile", delegate(FBResult result)
 			{
 				if(result.Error != null)
 				{

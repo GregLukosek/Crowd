@@ -3,11 +3,12 @@ using System.Collections;
 
 public class User : MonoBehaviour 
 {
-	public float speed = 5f;
-	public float rotationSensitivity = 60f;
 	public string facebookId = "";
 	public Renderer cube;
 	public int playerId = -1;
+	public Camera cam;
+	public CharacterController characterController;
+	public MouseLook[] mouseLooks;
 
 
 	public IEnumerator LoadAvatar(string url)
@@ -27,11 +28,15 @@ public class User : MonoBehaviour
 
 	void Update()
 	{
-		if (GetComponent<PhotonView>().isMine)
-		{
-			transform.localPosition += (transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * speed);
-			transform.Rotate(Vector3.up * Time.deltaTime * Input.GetAxis("Horizontal") * rotationSensitivity, Space.World);
-		}
+//		if (GetComponent<PhotonView>().isMine || Application.isEditor)
+//		{
+//			transform.localPosition += (transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * speed);
+//			transform.Rotate(Vector3.up * Time.deltaTime * Input.GetAxis("Horizontal") * rotationSensitivity, Space.World);
+//		}
+//
+
+
+
 	}
 
 
@@ -40,7 +45,9 @@ public class User : MonoBehaviour
 	{
 		StartCoroutine(LoadAvatar("http://graph.facebook.com/" + (string)info.sender.customProperties["fbid"] + "/picture?type=large"));
 
-		
+		cam.gameObject.SetActive(info.sender.isLocal);
+		characterController.enabled = info.sender.isLocal;
+		foreach(MouseLook mouseLook in mouseLooks) mouseLook.enabled = info.sender.isLocal;
 	}
 
 

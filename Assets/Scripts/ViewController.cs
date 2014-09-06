@@ -31,7 +31,7 @@ public class ViewController : MonoBehaviour
 
 	void Start()
 	{
-		ChangeView(viewAuthorize);
+//		ChangeView(viewAuthorize);
 	}
 
 
@@ -44,6 +44,7 @@ public class ViewController : MonoBehaviour
 	}
 
 
+	public void ToAuthorize() { ChangeView(viewAuthorize);}
 	public void ToMainRoom() { ChangeView(viewMainRoom);}
 
 

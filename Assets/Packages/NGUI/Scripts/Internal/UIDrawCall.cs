@@ -472,7 +472,7 @@ public class UIDrawCall : MonoBehaviour
 			{
 				mTriangles = 0;
 				if (mFilter.mesh != null) mFilter.mesh.Clear();
-				Debug.LogError("Too many vertices on one panel: " + verts.size);
+				Debug.LogError("Too many vertices on one panel: " + verts.size, this.panel.gameObject);
 			}
 
 			if (mRenderer == null) mRenderer = gameObject.GetComponent<MeshRenderer>();

@@ -2,20 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Parse;
+using System.Threading.Tasks;
 
 public class World : MonoBehaviour 
 {
-	List<Chunk> chunks = new List<Chunk>();
+	public static World instance;
+	public List<Chunk> chunks = new List<Chunk>();
+	public GameObject piecePrefab;
 
+
+	void Awake()
+	{
+		instance = this;
+	}
 
 
 	void Start()
 	{
 		GenerateWorld(new Vector3(4,4,4));
-		chunks[0].AddPiece(3,3,3);
-		chunks[0].AddPiece(4,3,3);
-		chunks[0].AddPiece(5,3,3);
-		Debug.Log((chunks[0].Serialize()));
 	}
 
 
@@ -29,13 +34,42 @@ public class World : MonoBehaviour
 			{
 				for (int x = 0; x < sizeInChunks.z; x++)
 				{
-					chunks.Add(new Chunk(new Vector3((float)x, (float)y, (float)z)));
+					GameObject newChunkGo = new GameObject("Chunk");
+					newChunkGo.transform.parent = this.transform;
+					newChunkGo.transform.localPosition = new Vector3(x*16f, y*16f, z*16f);
+					ChunkUI chunkUI = newChunkGo.AddComponent<ChunkUI>();
+					Chunk newChunk = new Chunk(new Vector3((float)x, (float)y, (float)z));
+					chunkUI.chunk = newChunk;
+					//if bottom chunk build floor
+					if (y == 0) newChunk.BuildFlatFloor();
+
+
+
+					chunks.Add(newChunk);
+					chunkUI.UpdatePieces();
+
 				}
 			}
 		}
 	}
 
 
+
+
+
+	public IEnumerator LoadWorld()
+	{
+		Task<IEnumerable<ParseObject>> task = ParseObject.GetQuery("Chunks").FindAsync();
+		
+		while (!task.IsCompleted) yield return new WaitForEndOfFrame();
+		
+		if (task.IsFaulted) Debug.LogError(task.Exception.Message);
+		else
+		{
+			List<ParseObject> loadedChunks = new List<ParseObject>(task.Result);
+			Debug.Log(loadedChunks.Count);
+		}
+	}
 
 
 }

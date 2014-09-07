@@ -26,20 +26,6 @@ public class User : MonoBehaviour
 	}
 
 
-	void Update()
-	{
-//		if (GetComponent<PhotonView>().isMine || Application.isEditor)
-//		{
-//			transform.localPosition += (transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * speed);
-//			transform.Rotate(Vector3.up * Time.deltaTime * Input.GetAxis("Horizontal") * rotationSensitivity, Space.World);
-//		}
-//
-
-
-
-	}
-
-
 
 	public void OnPhotonInstantiate(PhotonMessageInfo info)
 	{

@@ -9,6 +9,8 @@ public class User : MonoBehaviour
 	public Camera cam;
 	public CharacterController characterController;
 	public MouseLook[] mouseLooks;
+	
+	private RaycastHit hit;
 
 
 	public IEnumerator LoadAvatar(string url)
@@ -37,4 +39,43 @@ public class User : MonoBehaviour
 	}
 
 
+
+
+
+	void Update()
+	{
+		Ray ray = cam.ScreenPointToRay (new Vector3((float)Screen.width/2f, (float)Screen.height/2f, cam.nearClipPlane));
+
+		if (Physics.Raycast(ray, out hit, 20f))
+		{
+			if (Input.GetMouseButtonDown(0))
+			{
+				if (hit.collider.transform.parent.GetComponent<PieceUI>() != null)
+				{
+					Piece piece = hit.collider.transform.parent.GetComponent<PieceUI>().piece;
+					Chunk chunk = piece.chunk;
+					if (hit.normal == new Vector3(0,1f,0)) chunk.AddPiece(piece.x, piece.y+1, piece.z);
+					else if (hit.normal == new Vector3(1f,0,0)) chunk.AddPiece(piece.x+1, piece.y, piece.z);
+					else if (hit.normal == new Vector3(-1f,0,0)) chunk.AddPiece(piece.x-1, piece.y, piece.z);
+					else if (hit.normal == new Vector3(0,0,1f)) chunk.AddPiece(piece.x, piece.y, piece.z+1);
+					else if (hit.normal == new Vector3(0,0,-1f)) chunk.AddPiece(piece.x, piece.y, piece.z-1);
+					else if (hit.normal == new Vector3(0,-1f,0)) chunk.AddPiece(piece.x, piece.y-1, piece.z);
+				}
+			}
+			Debug.DrawLine(ray.origin, hit.point, Color.green);
+		}
+
+
+	}
+
+
+
+
+
+
+
+
 }
+
+
+

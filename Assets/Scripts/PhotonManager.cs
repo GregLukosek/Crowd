@@ -84,7 +84,7 @@ public class PhotonManager : Photon.MonoBehaviour
 	public void OnJoinedRoom()
 	{
 		Debug.Log("Joined room");
-		GameObject userPrefab = PhotonNetwork.Instantiate("userprefab", Vector3.zero, Quaternion.identity, 0);
+		GameObject userPrefab = PhotonNetwork.Instantiate("userprefab", new Vector3(10f,5f,10f), Quaternion.identity, 0);
 
 
 //		foreach (PhotonPlayer player in PhotonNetwork.playerList)

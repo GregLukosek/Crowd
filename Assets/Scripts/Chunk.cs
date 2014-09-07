@@ -4,6 +4,10 @@ using System.Collections;
 
 public class Chunk
 {
+	public delegate void OnChunksUpdateHandler();
+	public event OnChunksUpdateHandler OnChunksUpdate;
+
+
 	public Vector3 worldIndex = new Vector3();
 	public Piece[,,] pieces = new Piece[16,16,16];
 
@@ -34,7 +38,8 @@ public class Chunk
 
 	public void AddPiece(int _x, int _y, int _z)
 	{
-		pieces[_x, _y, _z] = new Piece(_x, _y, _z);
+		pieces[_x, _y, _z] = new Piece(this, _x, _y, _z);
+		if (OnChunksUpdate != null) OnChunksUpdate();
 	}
 
 

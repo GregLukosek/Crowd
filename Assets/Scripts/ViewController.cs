@@ -32,6 +32,7 @@ public class ViewController : MonoBehaviour
 	void Start()
 	{
 //		ChangeView(viewAuthorize);
+//		ToMainRoom();
 	}
 
 

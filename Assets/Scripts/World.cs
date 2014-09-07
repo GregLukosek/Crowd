@@ -20,7 +20,7 @@ public class World : MonoBehaviour
 
 	void Start()
 	{
-		GenerateWorld(new Vector3(4,4,4));
+		GenerateWorld(new Vector3(4,1,4));
 	}
 
 
@@ -43,10 +43,8 @@ public class World : MonoBehaviour
 					//if bottom chunk build floor
 					if (y == 0) newChunk.BuildFlatFloor();
 
-
-
 					chunks.Add(newChunk);
-					chunkUI.UpdatePieces();
+					chunkUI.Set(newChunk);
 
 				}
 			}
